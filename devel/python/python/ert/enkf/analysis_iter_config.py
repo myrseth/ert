@@ -30,39 +30,18 @@ class AnalysisIterConfig(CClass):
             self.init_cobj( c_ptr , cfunc.free )
             
     @property
-    def get_rerun(self):
-        return cfunc.get_rerun( self )
+    def get_num_iterations(self):
+        return cfunc.get_num_iterations( self )
 
-    def set_rerun(self, rerun):
-        cfunc.set_rerun(self, rerun)
-        
-    @property
-    def get_rerun_start(self):
-        return cfunc.get_rerun_start( self )
-
-    def set_rerun_start(self, int):
-        cfunc.set_rerun_start( self , int)
+    def set_num_iterations(self, num_iterations):
+        cfunc.set_num_iterations(self, num_iterations)
 
     @property
-    def get_log_path(self):
-        return cfunc.get_log_path( self )
+    def get_case_fmt(self):
+        return cfunc.get_case_fmt( self )
 
-    def set_log_path(self, path):
-        cfunc.set_log_path( self, path) 
-
-    @property
-    def get_alpha(self):
-        return cfunc.get_alpha( self )
-
-    def set_alpha(self, alpha):
-        cfunc.set_alpha( self , alpha)
-
-    @property
-    def get_merge_observations(self):
-        return cfunc.get_merge_observations( self )
-    
-    def set_merge_observations(self, merge_observations):
-        return cfunc.set_merge_observations( self , merge_observations)
+    def set_case_fmt(self, case_fmt):
+        cfunc.set_case_fmt(self, case_fmt)        
 ##################################################################
 
 cwrapper = CWrapper( libenkf.lib )
@@ -74,4 +53,5 @@ cfunc = CWrapperNameSpace("analysis_iter_config")
 cfunc.free                   = cwrapper.prototype("void analysis_iter_config_free( analysis_iter_config )")
 cfunc.set_num_iterations     = cwrapper.prototype("void analysis_iter_config_set_num_iterations(analysis_iter_config, int)")
 cfunc.get_num_iterations     = cwrapper.prototype("int analysis_iter_config_get_num_iterations(analysis_iter_config)")
-
+cfunc.set_case_fmt           = cwrapper.prototype("void analysis_iter_config_set_case_fmt( analysis_iter_config_type * config , const char * case_fmt)");
+cfunc.get_case_fmt           = cwrapper.prototype("char* analysis_iter_config_get_case_fmt( analysis_iter_config_type * config)");

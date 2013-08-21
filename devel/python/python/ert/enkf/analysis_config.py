@@ -63,6 +63,10 @@ class AnalysisConfig(CClass):
     
     def set_merge_observations(self, merge_observations):
         return cfunc.set_merge_observations( self , merge_observations)
+
+    @property
+    def get_iter_config(self):
+        return AnalysisIterConfig(c_ptr = cfunc.get_iter_config( self), parent = self)
 ##################################################################
 
 cwrapper = CWrapper( libenkf.lib )
@@ -82,4 +86,4 @@ cfunc.get_alpha              = cwrapper.prototype("double analysis_config_get_al
 cfunc.set_alpha              = cwrapper.prototype("void analysis_config_set_alpha(analysis_config, double)")
 cfunc.get_merge_observations = cwrapper.prototype("bool analysis_config_get_merge_observations(analysis_config)")
 cfunc.set_merge_observations = cwrapper.prototype("void analysis_config_set_merge_observations(analysis_config, bool)")
-
+cfunc.get_iter_config        = cwrapper.prototype("c_void_p analysis_config_get_iter_config")
