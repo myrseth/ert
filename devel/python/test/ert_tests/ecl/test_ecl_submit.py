@@ -65,12 +65,12 @@ class EclSubmitTest(ExtendedTestCase):
 
 class LSFSubmitTest(EclSubmitTest):
 
+    @skipIf(ExtendedTestCase.slowTestShouldNotRun(), "Slow LSF job submit skipped!")
     def test_start_parameters(self):
         self.assertIsNotNone(self.nfs_work_path, "NFS work path missing!")
         self.assertIsNone(self.rsh_servers)
 
 
-    #@skip("LSF not defined!")
     @skipIf(ExtendedTestCase.slowTestShouldNotRun(), "Slow LSF job submit skipped!")
     def test_LSF_submit(self):
         root = os.path.join(self.nfs_work_path, getpass.getuser(), "ert-test/python/ecl_submit/LSF")
@@ -85,9 +85,9 @@ class LSFSubmitTest(EclSubmitTest):
         for iens in (range(num_submit)):
             run_path = self.make_run_path(iens, LSF=True)
             path_list.append(run_path)
-            job = queue.submit("%s/%s.DATA" % (run_path, LSF_base))
+            job = queue.submitDataFile("%s/%s.DATA" % (run_path, LSF_base))
 
-        while queue.running:
+        while queue.isRunning():
             time.sleep(1)
 
         for path in path_list:
@@ -97,11 +97,11 @@ class LSFSubmitTest(EclSubmitTest):
 
 
 class RSHSubmitTest(EclSubmitTest):
+    @skipIf(ExtendedTestCase.slowTestShouldNotRun(), "Slow RSH job submit skipped!")
     def test_start_parameters(self):
         self.assertIsNotNone(self.nfs_work_path, "NFS work path missing!")
         self.assertIsNotNone(self.rsh_servers, "RSH servers missing!")
 
-    #@skip("RSH not defined!")
     @skipIf(ExtendedTestCase.slowTestShouldNotRun(), "Slow RSH job submit skipped!")
     def test_RSH_submit(self):
         root = os.path.join(self.nfs_work_path, getpass.getuser(), "ert-test/python/ecl_submit/RSH")
@@ -125,14 +125,14 @@ class RSHSubmitTest(EclSubmitTest):
         for iens in (range(num_submit)):
             run_path = self.make_run_path(iens)
             path_list.append(run_path)
-            job = queue.submit("%s/%s.DATA" % (run_path, base))
+            job = queue.submitDataFile("%s/%s.DATA" % (run_path, base))
 
-        while queue.running:
+        while queue.isRunning():
             time.sleep(1)
 
         for path in path_list:
             sum = EclSum("%s/%s" % (path, base))
-            self.assertTrue(isinstance(sum, EclSum))
+            self.assertIsInstance(sum, EclSum)
             self.assertEqual(2, sum.last_report)
 
 class LocalSubmitTest(EclSubmitTest):
@@ -149,15 +149,15 @@ class LocalSubmitTest(EclSubmitTest):
             for iens in range(num_submit):
                 run_path = self.make_run_path(iens)
                 path_list.append(run_path)
-                job = queue.submit("%s/%s.DATA" % (run_path, base))
+                job = queue.submitDataFile("%s/%s.DATA" % (run_path, base))
 
             queue.submit_complete()
-            while queue.running:
+            while queue.isRunning():
                 time.sleep(1)
 
             for path in path_list:
                 sum = EclSum("%s/%s" % (path, base))
-                self.assertTrue(isinstance(sum, EclSum))
+                self.assertIsInstance(sum, EclSum)
                 self.assertEqual(2, sum.last_report)
                 shutil.rmtree(path)
 
