@@ -8,6 +8,10 @@ add_executable( enkf_time_map enkf_time_map.c )
 target_link_libraries( enkf_time_map enkf test_util )
 
 
+add_executable( enkf_cases_config enkf_cases_config.c )
+target_link_libraries( enkf_cases_config enkf test_util )
+add_test( enkf_cases_config  ${EXECUTABLE_OUTPUT_PATH}/enkf_cases_config )
+
 add_executable( enkf_analysis_config enkf_analysis_config.c )
 target_link_libraries( enkf_analysis_config enkf test_util )
 add_test( enkf_analysis  ${EXECUTABLE_OUTPUT_PATH}/enkf_analysis_config )
@@ -92,9 +96,9 @@ add_test( enkf_forward_init_FIELD_FALSE
 #-----------------------------------------------------------------
 
 
-#add_executable( enkf_iter_config enkf_iter_config.c )
-#target_link_libraries( enkf_iter_config enkf test_util )
-#add_test( enkf_iter_config  ${EXECUTABLE_OUTPUT_PATH}/enkf_iter_config )
+add_executable( enkf_iter_config enkf_iter_config.c )
+target_link_libraries( enkf_iter_config enkf test_util )
+add_test( enkf_iter_config  ${EXECUTABLE_OUTPUT_PATH}/enkf_iter_config )
 
 add_executable( enkf_model_config enkf_model_config.c )
 target_link_libraries( enkf_model_config enkf test_util )
