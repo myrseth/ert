@@ -54,10 +54,6 @@ class AnalysisConfig(BaseCClass):
     @property
     def get_iter_config(self):
         return AnalysisConfig.cNamespace().get_iter_config(self).setParent(self)
-##################################################################
-
-
-
 
     def free(self):
         AnalysisConfig.cNamespace().free(self)
@@ -81,5 +77,3 @@ AnalysisConfig.cNamespace().get_alpha              = cwrapper.prototype("double 
 AnalysisConfig.cNamespace().set_alpha              = cwrapper.prototype("void analysis_config_set_alpha(analysis_config, double)")
 AnalysisConfig.cNamespace().get_merge_observations = cwrapper.prototype("bool analysis_config_get_merge_observations(analysis_config)")
 AnalysisConfig.cNamespace().set_merge_observations = cwrapper.prototype("void analysis_config_set_merge_observations(analysis_config, bool)")
-
->>>>>>> master
