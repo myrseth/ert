@@ -23,7 +23,7 @@ import  libenkf
 
 class AnalysisIterConfig(CClass):
     
-    def __init__(self , c_ptr , parent = None):
+def __init__(self , c_ptr , parent = None):
         if parent:
             self.init_cref( c_ptr , parent)
         else:
@@ -41,7 +41,14 @@ class AnalysisIterConfig(CClass):
         return cfunc.get_case_fmt( self )
 
     def set_case_fmt(self, case_fmt):
-        cfunc.set_case_fmt(self, case_fmt)        
+        cfunc.set_case_fmt(self, case_fmt)
+
+    @property
+    def get_runpath_fmt(self):
+        return cfunc.get_case_fmt( self )
+
+    def set_runpath_fmt(self, case_fmt):
+        cfunc.set_case_fmt(self, case_fmt)
 ##################################################################
 
 cwrapper = CWrapper( libenkf.lib )
@@ -53,5 +60,7 @@ cfunc = CWrapperNameSpace("analysis_iter_config")
 cfunc.free                   = cwrapper.prototype("void analysis_iter_config_free( analysis_iter_config )")
 cfunc.set_num_iterations     = cwrapper.prototype("void analysis_iter_config_set_num_iterations(analysis_iter_config, int)")
 cfunc.get_num_iterations     = cwrapper.prototype("int analysis_iter_config_get_num_iterations(analysis_iter_config)")
-cfunc.set_case_fmt           = cwrapper.prototype("void analysis_iter_config_set_case_fmt( analysis_iter_config_type * config , const char * case_fmt)");
-cfunc.get_case_fmt           = cwrapper.prototype("char* analysis_iter_config_get_case_fmt( analysis_iter_config_type * config)");
+cfunc.set_case_fmt           = cwrapper.prototype("void analysis_iter_config_set_case_fmt( analysis_iter_config , char* )");
+cfunc.get_case_fmt           = cwrapper.prototype("char* analysis_iter_config_get_case_fmt( analysis_iter_config)");
+cfunc.set_runpath_fmt           = cwrapper.prototype("void analysis_iter_config_set_runpath_fmt( analysis_iter_config_type * config , char*)");
+cfunc.get_runpath_fmt           = cwrapper.prototype("char* analysis_iter_config_get_runpath_fmt( analysis_iter_config)");
